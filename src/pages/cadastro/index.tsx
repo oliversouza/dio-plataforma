@@ -16,6 +16,9 @@ import {
   TextoLoginClick,
   Title,
 } from "./styles";
+import { IFormData } from "./types";
+
+import axios, { AxiosError } from "axios";
 
 const Cadastro = () => {
   const navigate = useNavigate();
@@ -29,37 +32,42 @@ const Cadastro = () => {
     defaultValues: {
       user: "",
       email: "",
-      senha: "",
+      password: "",
     },
   });
 
-  const onSubmit = async (formData) => {
-    try {
-      const { data: existing } = await api.get(`/users?email=${formData.email}`);
+  const onSubmit = async (formData:IFormData) => {
+try {
+  const { data: existing } = await api.get(`/users?email=${formData.email}`);
 
-      if (existing.length) {
-        alert("Este e‑mail já está cadastrado.");
-        return;
-      }
+  if (existing.length) {
+    alert("Este e‑mail já está cadastrado.");
+    return;
+  }
 
-      const response = await api.post("/users", {
-        name: formData.user,
-        email: formData.email,
-        senha: formData.senha,
-      });
+  const response = await api.post("/users", {
+    name: formData.user,
+    email: formData.email,
+    password: formData.password,
+  });
 
-      if (response.status === 201 || response.status === 200) {
-        alert("Cadastro realizado com sucesso!");
-        navigate("/feed");
-      }
-    } catch (error) {
-      if (!error.response) {
-        alert("Não consegui conectar no servidor. Ele está rodando?");
-      } else {
-        alert("Erro ao cadastrar. Detalhes no console.");
-      }
-      console.error(error);
+  if (response.status === 201 || response.status === 200) {
+    alert("Cadastro realizado com sucesso!");
+    navigate("/feed");
+  }
+} catch (error) {
+  if (axios.isAxiosError(error)) {
+    if (!error.response) {
+      alert("Não consegui conectar no servidor. Ele está rodando?");
+    } else {
+      alert("Erro ao cadastrar. Detalhes no console.");
+      console.error("Resposta do servidor:", error.response.data);
     }
+  } else {
+    alert("Erro desconhecido. Veja o console.");
+    console.error("Erro inesperado:", error);
+  }
+}
   };
 
   return (
@@ -102,13 +110,13 @@ const Cadastro = () => {
 
             <Input
               type="password"
-              placeholder="Senha"
+              placeholder="password"
               leftIcon={<MdLock />}
-              name="senha"
+              name="password"
               control={control}
-              rules={{ required: "Senha é obrigatória" }}
+              rules={{ required: "password é obrigatória" }}
             />
-            {errors.senha && <span>{errors.senha.message}</span>}
+            {errors.password && <span>{errors.password.message}</span>}
 
             <Button title="Cadastrar" variant="secondary" type="submit" />
           </form>

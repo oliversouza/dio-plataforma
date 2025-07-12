@@ -15,7 +15,7 @@ const Home = () => {
     formState: { errors, isValid },
   } = useForm()
 
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = (data:any) => console.log(data)
 
   console.log(watch("example"))
   return (
