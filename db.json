@@ -4,19 +4,19 @@
       "id": "1",
       "name": "Pablo",
       "email": "pablo@email.com",
-      "senha": "123456"
+      "password": "123456"
     },
     {
       "id": "2",
       "name": "José",
       "email": "jose@email.com",
-      "senha": "123456"
+      "password": "123456"
     },
     {
       "id": "0512",
       "name": "italo",
       "email": "teste@gmail.com",
-      "senha": "1234"
+      "password": "1234"
     }
   ]
 }
